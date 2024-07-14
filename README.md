@@ -1,5 +1,5 @@
-<h1>MealDB Search Application</h1>
-# MealDB Search Application
+<h1>Yummy Search Application</h1>
+# Yummy Search Application
 
 ## Overview
 
