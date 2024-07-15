@@ -118,3 +118,9 @@ i {
   top: 5%;
   right: 5%;
 }
+
+@media screen and (max-width: 600px) {
+  .meals-container {
+    padding-left: 80px !important;
+  }
+}
