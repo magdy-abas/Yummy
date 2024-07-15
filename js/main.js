@@ -3,6 +3,7 @@
 let fromCategory = true;
 const loading = $("#loading");
 const row = $(".meals-container .row");
+const detailsContainer = $(".display-details");
 
 // ! ================> When Start ================>
 //side nav
@@ -169,6 +170,7 @@ async function getMealsDetails(id) {
 
 function displayMealsDetails(meal) {
   closeNav();
+
   let ingredients = "";
   let tags = "";
 
@@ -188,37 +190,56 @@ function displayMealsDetails(meal) {
   }
 
   const container = `
-      <div class="col-md-4">
-        <img class="w-100 rounded-3" src="${meal[0].strMealThumb}" alt='${
-    meal[0].strMeal
-  }'>
-        <h2>${meal[0].strMeal}</h2>
-      </div>
-      <div class="col-md-8">
-        <h2>Instructions</h2>
-        <p>${meal[0].strInstructions}</p>
-        <h3><span class="fw-bolder">Area : </span>${meal[0].strArea}</h3>
-        <h3><span class="fw-bolder">Category : </span>${
-          meal[0].strCategory
-        }</h3>
-        <h3>Recipes :</h3>
-        <ul class="list-unstyled d-flex g-3 flex-wrap">
-          ${ingredients}
-        </ul>
-        <h3>Tags : </h3>
-        <ul class="list-unstyled d-flex g-3 flex-wrap">
-          ${tags || "food"}
-        </ul>
-        <a target="_blank" href="${
-          meal[0].strSource
-        }" class="btn btn-success">Source</a>
-        <a target="_blank" href="${
-          meal[0].strYoutube
-        }" class="btn btn-danger">Youtube</a>
-      </div>
+          <div class="   details-container py-4">
+
+        <button type="button" class="btn-close btn-close-white"></button>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <img class="w-100 rounded-3" src="${
+                      meal[0].strMealThumb
+                    }" alt='${meal[0].strMeal}'>
+                    <h2>${meal[0].strMeal}</h2>
+                </div>
+                <div class="col-md-8">
+                    <h2>Instructions</h2>
+                    <p>${meal[0].strInstructions}</p>
+                    <h3><span class="fw-bolder">Area : </span>${
+                      meal[0].strArea
+                    }</h3>
+                    <h3><span class="fw-bolder">Category : </span>${
+                      meal[0].strCategory
+                    }</h3>
+                    <h3>Recipes :</h3>
+                    <ul class="list-unstyled d-flex g-3 flex-wrap">
+                        ${ingredients}
+                    </ul>
+                    <h3>Tags : </h3>
+                    <ul class="list-unstyled d-flex g-3 flex-wrap">
+                        ${tags || "food"}
+                    </ul>
+                    <a target="_blank" href="${
+                      meal[0].strSource
+                    }" class="btn btn-success">Source</a>
+                    <a target="_blank" href="${
+                      meal[0].strYoutube
+                    }" class="btn btn-danger">Youtube</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     `;
 
-  row.html(container);
+  $("body").css("overflow", "hidden");
+  detailsContainer.html(container);
+  //event close meal-details
+  $(".btn-close").on("click", function () {
+    showPreloader();
+    $(".details-container").css("display", "none");
+    $("body").css("overflow", "visible");
+    hidePreloader();
+  });
 }
 
 // category
@@ -285,8 +306,8 @@ function displayArea(meals) {
     .map(
       (area) => `
       <div class="col-md-3 meal" data-index=false data-category=${area.strArea}>
-        <div class="rounded-2 text-center cursor-pointer">
-          <i class="fa-solid fa-house-laptop fa-4x"></i>
+        <div class="rounded-2 p-2  text-center cursor-pointer">
+          <i class="fa-solid mb-2 fa-globe fa-4x"></i>
           <h3>${area.strArea}</h3>
         </div>
       </div>
